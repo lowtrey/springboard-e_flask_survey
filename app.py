@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import surveys
 
+# Initialize App & Variables
 app = Flask(__name__)
 survey = surveys["personality"]
 responses = []
@@ -41,7 +42,7 @@ def show_question(question_number):
 def show_answer():
     answer = request.form.get("choice")
     responses.append(answer)
-    next_question_index = int(request.form.get("question_number")) + 1
+    next_question_index = len(responses)
 
     if len(responses) < len(survey.questions):
         return redirect(f"/questions/{next_question_index}")

@@ -3,7 +3,6 @@
 {% block content %}
 <h1>Question #{{num + 1}}</h1>
 <form action="/answer" method="POST">
-  <input type="hidden" id="question_number" name="question_number" value={{num}}>
   <h3>{{question}}</h3>
   {% for choice in choices %}
   <input type="radio" name="choice" id={{choice}} value={{choice}}>
