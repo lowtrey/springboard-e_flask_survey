@@ -1,9 +1,17 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
+from flask_debugtoolbar import DebugToolbarExtension
 from surveys import surveys
 
 app = Flask(__name__)
 survey = surveys["personality"]
 responses = []
+
+# Configure Key for Session
+app.config["SECRET_KEY"] = "oh-so-secret"
+# Turn off Redirect Intercept
+app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
+# instantiate toolbar
+debug = DebugToolbarExtension(app)
 
 
 # Handle root route - render survey
@@ -16,6 +24,7 @@ def start_survey():
 @app.route("/questions/<int:question_number>")
 def show_question(question_number):
     if question_number != len(responses):
+        flash("Questions must be answered in order.", "error")
         return redirect(f"/questions/{len(responses)}")
 
     elif len(responses) < len(survey.questions):

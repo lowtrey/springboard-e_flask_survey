@@ -4,10 +4,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/app.css">
   <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
+  <!-- With Block for conditional rendering -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <section class="messages">
+    {% for category, msg in messages %}
+    <p class="{{category}}">{{msg}}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+  {% endwith %}
   {% block content %}
   {% endblock %}
 </body>
