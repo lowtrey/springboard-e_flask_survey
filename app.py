@@ -14,13 +14,17 @@ def start_survey():
 
 # Handle Question Routes
 @app.route("/questions/<int:question_number>")
-def ask_question(question_number):
-    if question_number >= 0 and question_number < len(survey.questions):
+def show_question(question_number):
+    if question_number != len(responses):
+        return redirect(f"/questions/{len(responses)}")
+
+    elif len(responses) < len(survey.questions):
         question = survey.questions[question_number].question
         choices = survey.questions[question_number].choices
         return render_template("questions.html", num=question_number, question=question, choices=choices)
+
     else:
-        return "Question not found..."
+        return redirect("/thanks")
 
 
 # Handle Answer Routes
